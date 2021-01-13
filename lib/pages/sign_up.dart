@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:tubes_moprokel8/Services/AuthServices.dart';
 
 class SignUp extends StatefulWidget {
   @override
@@ -7,14 +8,23 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp> {
+  final _key = GlobalKey<FormState>();
+
+  final AuthServices _auth = AuthServices();
+
+  TextEditingController _nameController = TextEditingController();
+  TextEditingController _emailContoller = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
+      body: Form(
+        key: _key,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            const SizedBox(height: 80.0),
+            const SizedBox(height: 40.0),
             Stack(
               children: <Widget>[
                 Positioned(
@@ -38,11 +48,29 @@ class _SignUpState extends State<SignUp> {
                 ),
               ],
             ),
-            const SizedBox(height: 30.0),
+            const SizedBox(height: 10.0),
             Padding(
               padding:
                   const EdgeInsets.symmetric(horizontal: 32, vertical: 8.0),
-              child: TextField(
+              child: TextFormField(
+                controller: _nameController,
+                decoration: InputDecoration(
+                    labelText: "Name",
+                    floatingLabelBehavior: FloatingLabelBehavior.always),
+              ),
+            ),
+            Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 32, vertical: 8.0),
+              child: TextFormField(
+                controller: _emailContoller,
+                validator: (value) {
+                  if (value.isEmpty) {
+                    return 'Email cannot be empty';
+                  } else
+                    return null;
+                },
+                //obscureText: true,
                 decoration: InputDecoration(
                     labelText: "Email",
                     floatingLabelBehavior: FloatingLabelBehavior.always),
@@ -51,20 +79,17 @@ class _SignUpState extends State<SignUp> {
             Padding(
               padding:
                   const EdgeInsets.symmetric(horizontal: 32, vertical: 8.0),
-              child: TextField(
+              child: TextFormField(
+                controller: _passwordController,
                 obscureText: true,
+                validator: (value) {
+                  if (value.isEmpty) {
+                    return 'Password cannot be empty';
+                  } else
+                    return null;
+                },
                 decoration: InputDecoration(
                     labelText: "Password",
-                    floatingLabelBehavior: FloatingLabelBehavior.always),
-              ),
-            ),
-            Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 32, vertical: 8.0),
-              child: TextField(
-                obscureText: true,
-                decoration: InputDecoration(
-                    labelText: "Confirm password",
                     floatingLabelBehavior: FloatingLabelBehavior.always),
               ),
             ),
@@ -82,7 +107,7 @@ class _SignUpState extends State<SignUp> {
                 ]),
               ),
             ),
-            const SizedBox(height: 60.0),
+            const SizedBox(height: 10.0),
             Align(
               alignment: Alignment.centerRight,
               child: RaisedButton(
@@ -93,7 +118,11 @@ class _SignUpState extends State<SignUp> {
                     borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(30.0),
                         bottomLeft: Radius.circular(30.0))),
-                onPressed: () {},
+                onPressed: () {
+                  if (_key.currentState.validate()) {
+                    createUser();
+                  }
+                },
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
@@ -111,7 +140,7 @@ class _SignUpState extends State<SignUp> {
                 ),
               ),
             ),
-            const SizedBox(height: 50.0),
+            const SizedBox(height: 10.0),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
@@ -158,5 +187,19 @@ class _SignUpState extends State<SignUp> {
         ),
       ),
     );
+  }
+
+  void createUser() async {
+    dynamic result = await _auth.createNewUser(
+        _nameController.text, _emailContoller.text, _passwordController.text);
+    if (result == null) {
+      print('Email is not valid');
+    } else {
+      print(result.toString());
+      _nameController.clear();
+      _passwordController.clear();
+      _emailContoller.clear();
+      Navigator.pop(context);
+    }
   }
 }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tubes_moprokel8/pages/sign_up.dart';
+import 'package:tubes_moprokel8/Services/AuthServices.dart';
+import 'package:tubes_moprokel8/Dashboard/dashboard.dart';
 
 class SignIn extends StatefulWidget {
   @override
@@ -8,10 +10,18 @@ class SignIn extends StatefulWidget {
 }
 
 class _SignInState extends State<SignIn> {
+  final _key = GlobalKey<FormState>();
+
+  final AuthServices _auth = AuthServices();
+
+  TextEditingController _emailContoller = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
+      body: Form(
+        key: _key,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
@@ -43,7 +53,14 @@ class _SignInState extends State<SignIn> {
             Padding(
               padding:
                   const EdgeInsets.symmetric(horizontal: 32, vertical: 8.0),
-              child: TextField(
+              child: TextFormField(
+                controller: _emailContoller,
+                validator: (value) {
+                  if (value.isEmpty) {
+                    return 'Email cannot be empty';
+                  } else
+                    return null;
+                },
                 decoration: InputDecoration(
                     labelText: "Email",
                     floatingLabelBehavior: FloatingLabelBehavior.always),
@@ -52,8 +69,15 @@ class _SignInState extends State<SignIn> {
             Padding(
               padding:
                   const EdgeInsets.symmetric(horizontal: 32, vertical: 8.0),
-              child: TextField(
+              child: TextFormField(
+                controller: _passwordController,
                 obscureText: true,
+                validator: (value) {
+                  if (value.isEmpty) {
+                    return 'Password cannot be empty';
+                  } else
+                    return null;
+                },
                 decoration: InputDecoration(
                     labelText: "Password",
                     floatingLabelBehavior: FloatingLabelBehavior.always),
@@ -74,7 +98,11 @@ class _SignInState extends State<SignIn> {
                     borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(30.0),
                         bottomLeft: Radius.circular(30.0))),
-                onPressed: () {},
+                onPressed: () {
+                  if (_key.currentState.validate()) {
+                    signInUser();
+                  }
+                },
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
@@ -160,5 +188,18 @@ class _SignInState extends State<SignIn> {
         ),
       ),
     );
+  }
+
+  void signInUser() async {
+    dynamic authResult =
+        await _auth.loginUser(_emailContoller.text, _passwordController.text);
+    if (authResult == null) {
+      print('Sign in error. could not be able to login');
+    } else {
+      _emailContoller.clear();
+      _passwordController.clear();
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => DashboardScreen()));
+    }
   }
 }

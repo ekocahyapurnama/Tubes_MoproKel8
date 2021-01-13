@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "512618735161",
+    "project_id": "where-you-go-4407f",
+    "storage_bucket": "where-you-go-4407f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:512618735161:android:00bb5dd972565a5e698fe8",
+        "android_client_info": {
+          "package_name": "com.example.tubes_moprokel8"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "512618735161-0obg82rk0uac5hvcq98apj8enf6j96nd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAYDWqnMy2H5DxCDV8159oDDTRNLB9BDwU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "512618735161-0obg82rk0uac5hvcq98apj8enf6j96nd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
