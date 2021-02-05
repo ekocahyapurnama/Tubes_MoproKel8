@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:tubes_moprokel8/Dashboard/home.dart';
 import 'package:tubes_moprokel8/pages/sign_up.dart';
 import 'package:tubes_moprokel8/Services/AuthServices.dart';
-import 'package:tubes_moprokel8/Dashboard/dashboard.dart';
 
 class SignIn extends StatefulWidget {
   @override
@@ -14,7 +14,7 @@ class _SignInState extends State<SignIn> {
 
   final AuthServices _auth = AuthServices();
 
-  TextEditingController _emailContoller = TextEditingController();
+  TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
 
   @override
@@ -55,7 +55,7 @@ class _SignInState extends State<SignIn> {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 32, vertical: 8.0),
                 child: TextFormField(
-                  controller: _emailContoller,
+                  controller: _emailController,
                   validator: (value) {
                     if (value.isEmpty) {
                       return 'Email cannot be empty';
@@ -87,7 +87,7 @@ class _SignInState extends State<SignIn> {
               Container(
                   padding: const EdgeInsets.only(right: 16.0),
                   alignment: Alignment.centerRight,
-                  child: Text("Forgot your password?")),
+                  child: Text("")),
               const SizedBox(height: 60.0),
               Align(
                 alignment: Alignment.centerRight,
@@ -134,9 +134,9 @@ class _SignInState extends State<SignIn> {
                         padding: const EdgeInsets.symmetric(
                             horizontal: 40, vertical: 20),
                         child: Text.rich(
-                          TextSpan(text: 'Don\'t have an account?', children: [
+                          TextSpan(text: 'Don\'t have an account? ', children: [
                             TextSpan(
-                              text: 'Signup',
+                              text: 'SignUp',
                               style: TextStyle(color: Color(0xffEE7B23)),
                             ),
                           ]),
@@ -147,48 +147,6 @@ class _SignInState extends State<SignIn> {
                 ),
               ),
               const SizedBox(height: 20.0),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  OutlineButton.icon(
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 8.0,
-                      horizontal: 30.0,
-                    ),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20.0)),
-                    borderSide: BorderSide(color: Colors.red),
-                    color: Colors.red,
-                    highlightedBorderColor: Colors.red,
-                    textColor: Colors.red,
-                    icon: Icon(
-                      FontAwesomeIcons.googlePlusG,
-                      size: 18.0,
-                    ),
-                    label: Text("Google"),
-                    onPressed: () {},
-                  ),
-                  const SizedBox(width: 10.0),
-                  OutlineButton.icon(
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 8.0,
-                      horizontal: 30.0,
-                    ),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20.0)),
-                    highlightedBorderColor: Colors.indigo,
-                    borderSide: BorderSide(color: Colors.indigo),
-                    color: Colors.indigo,
-                    textColor: Colors.indigo,
-                    icon: Icon(
-                      FontAwesomeIcons.facebookF,
-                      size: 18.0,
-                    ),
-                    label: Text("Facebook"),
-                    onPressed: () {},
-                  ),
-                ],
-              )
             ],
           ),
         ),
@@ -198,14 +156,13 @@ class _SignInState extends State<SignIn> {
 
   void signInUser() async {
     dynamic authResult =
-        await _auth.loginUser(_emailContoller.text, _passwordController.text);
+        await _auth.loginUser(_emailController.text, _passwordController.text);
     if (authResult == null) {
       print('Sign in error. could not be able to login');
     } else {
-      _emailContoller.clear();
+      _emailController.clear();
       _passwordController.clear();
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => DashboardScreen()));
+      Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
     }
   }
 }

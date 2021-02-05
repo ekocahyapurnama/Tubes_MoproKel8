@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tubes_moprokel8/Services/AuthServices.dart';
+import 'package:tubes_moprokel8/pages/sign_in.dart';
 
 class SignUp extends StatefulWidget {
   @override
@@ -130,7 +131,7 @@ class _SignUpState extends State<SignUp> {
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
                       Text(
-                        "Sign up".toUpperCase(),
+                        "Sign Up".toUpperCase(),
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 16.0),
                       ),
@@ -143,49 +144,32 @@ class _SignUpState extends State<SignUp> {
                   ),
                 ),
               ),
-              const SizedBox(height: 30),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  OutlineButton.icon(
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 8.0,
-                      horizontal: 30.0,
+              const SizedBox(height: 20.0),
+              Center(
+                child: Row(
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) => SignIn()));
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 40, vertical: 20),
+                        child: Text.rich(
+                          TextSpan(text: 'Back To SignIn? ', children: [
+                            TextSpan(
+                              text: 'SignIn',
+                              style: TextStyle(color: Color(0xffEE7B23)),
+                            ),
+                          ]),
+                        ),
+                      ),
                     ),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20.0)),
-                    borderSide: BorderSide(color: Colors.red),
-                    color: Colors.red,
-                    highlightedBorderColor: Colors.red,
-                    textColor: Colors.red,
-                    icon: Icon(
-                      FontAwesomeIcons.googlePlusG,
-                      size: 18.0,
-                    ),
-                    label: Text("Google"),
-                    onPressed: () {},
-                  ),
-                  const SizedBox(width: 0),
-                  OutlineButton.icon(
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 8.0,
-                      horizontal: 30.0,
-                    ),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20.0)),
-                    highlightedBorderColor: Colors.indigo,
-                    borderSide: BorderSide(color: Colors.indigo),
-                    color: Colors.indigo,
-                    textColor: Colors.indigo,
-                    icon: Icon(
-                      FontAwesomeIcons.facebookF,
-                      size: 18.0,
-                    ),
-                    label: Text("Google"),
-                    onPressed: () {},
-                  ),
-                ],
-              )
+                  ],
+                ),
+              ),
+              const SizedBox(height: 20.0),
             ],
           ),
         ),
